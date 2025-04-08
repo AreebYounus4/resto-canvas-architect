@@ -11,9 +11,13 @@ interface CanvasElementsProps {
 export const CanvasElements: React.FC<CanvasElementsProps> = ({ scale, panOffset }) => {
   const { activeFloorplan } = useFloorplan();
   
+  if (!activeFloorplan) {
+    return null;
+  }
+  
   return (
     <>
-      {activeFloorplan?.elements.map(element => (
+      {activeFloorplan.elements.map(element => (
         <CanvasElement
           key={element.id}
           element={element}
