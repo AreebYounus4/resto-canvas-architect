@@ -1,11 +1,34 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import { useState } from "react";
+import FloorPlanCanvas from "@/components/FloorPlanCanvas";
+import ToolPanel from "@/components/ToolPanel";
+import { ActiveTool, CanvasElement } from "@/types/canvasTypes";
 
 const Index = () => {
+  const [activeTool, setActiveTool] = useState<ActiveTool>(null);
+  const [elements, setElements] = useState<CanvasElement[]>([]);
+
+  const handleToolSelect = (tool: ActiveTool) => {
+    setActiveTool(tool);
+  };
+
+  const handleAddElement = (element: CanvasElement) => {
+    setElements((prev) => [...prev, element]);
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
+    <div className="min-h-screen flex flex-col bg-background">
+      <header className="bg-primary text-primary-foreground p-4">
+        <h1 className="text-2xl font-bold">Restaurant Floor Plan Designer</h1>
+      </header>
+      
+      <div className="flex flex-1 overflow-hidden">
+        <ToolPanel activeTool={activeTool} onSelectTool={handleToolSelect} />
+        <FloorPlanCanvas 
+          activeTool={activeTool} 
+          elements={elements}
+          onAddElement={handleAddElement}
+        />
       </div>
     </div>
   );
