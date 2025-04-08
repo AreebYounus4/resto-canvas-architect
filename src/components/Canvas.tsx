@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useFloorplan } from '@/context/FloorplanContext';
 import { CanvasElement } from './CanvasElement';
@@ -159,8 +158,8 @@ export const Canvas: React.FC = () => {
       const rect = canvasRef.current?.getBoundingClientRect();
       if (!rect) return;
       
-      const x = (e.clientX - rect.left) / scale - panOffset.x - libraryItem.defaultWidth / 2;
-      const y = (e.clientY - rect.top) / scale - panOffset.y - libraryItem.defaultHeight / 2;
+      const x = (e.clientX - rect.left) / scale - panOffset.x - (libraryItem.defaultWidth / 2);
+      const y = (e.clientY - rect.top) / scale - panOffset.y - (libraryItem.defaultHeight / 2);
       
       if (libraryItem.type === 'reservable') {
         // Open dialog for reservable items

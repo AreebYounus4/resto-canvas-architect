@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { useFloorplan } from '@/context/FloorplanContext';
 import { CanvasElement as CanvasElementType } from '@/types';
@@ -130,11 +131,17 @@ export const CanvasElement: React.FC<CanvasElementProps> = ({
       ref={elementRef}
       className={`canvas-element ${element.type} ${isSelected ? 'selected' : ''}`}
       style={{
+        position: 'absolute',
         left: `${(element.x + panOffset.x) * scale}px`,
         top: `${(element.y + panOffset.y) * scale}px`,
         width: `${element.width * scale}px`,
         height: `${element.height * scale}px`,
         transform: element.rotation ? `rotate(${element.rotation}deg)` : undefined,
+        border: isSelected ? '2px solid #3b82f6' : '1px solid #e5e7eb',
+        backgroundColor: element.type === 'reservable' ? 'rgba(236, 253, 245, 0.8)' : 'rgba(239, 246, 255, 0.8)',
+        borderRadius: '4px',
+        cursor: 'move',
+        zIndex: isSelected ? 10 : 1,
       }}
       onMouseDown={handleMouseDown}
     >
@@ -154,21 +161,61 @@ export const CanvasElement: React.FC<CanvasElementProps> = ({
           <div 
             className="resize-handle top-left" 
             data-handle="top-left"
+            style={{
+              position: 'absolute',
+              width: '8px',
+              height: '8px',
+              background: '#3b82f6',
+              borderRadius: '50%',
+              top: '-4px',
+              left: '-4px',
+              cursor: 'nwse-resize',
+            }}
             onMouseDown={(e) => e.stopPropagation()}
           />
           <div 
             className="resize-handle top-right" 
             data-handle="top-right"
+            style={{
+              position: 'absolute',
+              width: '8px',
+              height: '8px',
+              background: '#3b82f6',
+              borderRadius: '50%',
+              top: '-4px',
+              right: '-4px',
+              cursor: 'nesw-resize',
+            }}
             onMouseDown={(e) => e.stopPropagation()}
           />
           <div 
             className="resize-handle bottom-left" 
             data-handle="bottom-left"
+            style={{
+              position: 'absolute',
+              width: '8px',
+              height: '8px',
+              background: '#3b82f6',
+              borderRadius: '50%',
+              bottom: '-4px',
+              left: '-4px',
+              cursor: 'nesw-resize',
+            }}
             onMouseDown={(e) => e.stopPropagation()}
           />
           <div 
             className="resize-handle bottom-right" 
             data-handle="bottom-right"
+            style={{
+              position: 'absolute',
+              width: '8px',
+              height: '8px',
+              background: '#3b82f6',
+              borderRadius: '50%',
+              bottom: '-4px',
+              right: '-4px',
+              cursor: 'nwse-resize',
+            }}
             onMouseDown={(e) => e.stopPropagation()}
           />
         </>

@@ -1,0 +1,53 @@
+
+:root {
+  --canvas-grid: rgba(0, 0, 0, 0.1);
+}
+
+.canvas-element {
+  position: absolute;
+  transition: transform 0.1s ease;
+}
+
+.canvas-element.selected {
+  z-index: 10;
+}
+
+.canvas-element.reservable {
+  background-color: rgba(236, 253, 245, 0.8);
+}
+
+.canvas-element.decorative {
+  background-color: rgba(239, 246, 255, 0.8);
+}
+
+.resize-handle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background-color: #3b82f6;
+  border-radius: 50%;
+}
+
+.resize-handle.top-left {
+  top: -4px;
+  left: -4px;
+  cursor: nwse-resize;
+}
+
+.resize-handle.top-right {
+  top: -4px;
+  right: -4px;
+  cursor: nesw-resize;
+}
+
+.resize-handle.bottom-left {
+  bottom: -4px;
+  left: -4px;
+  cursor: nesw-resize;
+}
+
+.resize-handle.bottom-right {
+  bottom: -4px;
+  right: -4px;
+  cursor: nwse-resize;
+}
