@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { useFloorplan } from '@/context/FloorplanContext';
 import { CanvasElement as CanvasElementType } from '@/types';
@@ -26,6 +25,7 @@ export const CanvasElement: React.FC<CanvasElementProps> = ({
   const [resizeHandle, setResizeHandle] = useState<string | null>(null);
   const [startPos, setStartPos] = useState({ x: 0, y: 0 });
   const [startDims, setStartDims] = useState({ width: 0, height: 0 });
+  const [startElemPos, setStartElemPos] = useState({ x: 0, y: 0 });
   
   const elementRef = useRef<HTMLDivElement>(null);
   const libraryItem = elementLibrary.find(item => item.id === element.libraryItemId);
@@ -41,6 +41,7 @@ export const CanvasElement: React.FC<CanvasElementProps> = ({
       setResizeHandle(target.dataset.handle || null);
       setStartPos({ x: e.clientX, y: e.clientY });
       setStartDims({ width: element.width, height: element.height });
+      setStartElemPos({ x: element.x, y: element.y });
     } else {
       // Otherwise start dragging
       setIsDragging(true);
@@ -67,35 +68,31 @@ export const CanvasElement: React.FC<CanvasElementProps> = ({
       
       let newWidth = startDims.width;
       let newHeight = startDims.height;
-      let newX = element.x;
-      let newY = element.y;
+      let newX = startElemPos.x;
+      let newY = startElemPos.y;
       
       switch (resizeHandle) {
         case 'top-left':
-          newWidth = startDims.width - dx;
-          newHeight = startDims.height - dy;
-          newX = element.x + dx;
-          newY = element.y + dy;
+          newWidth = Math.max(20, startDims.width - dx);
+          newHeight = Math.max(20, startDims.height - dy);
+          newX = startElemPos.x + (startDims.width - newWidth);
+          newY = startElemPos.y + (startDims.height - newHeight);
           break;
         case 'top-right':
-          newWidth = startDims.width + dx;
-          newHeight = startDims.height - dy;
-          newY = element.y + dy;
+          newWidth = Math.max(20, startDims.width + dx);
+          newHeight = Math.max(20, startDims.height - dy);
+          newY = startElemPos.y + (startDims.height - newHeight);
           break;
         case 'bottom-left':
-          newWidth = startDims.width - dx;
-          newHeight = startDims.height + dy;
-          newX = element.x + dx;
+          newWidth = Math.max(20, startDims.width - dx);
+          newHeight = Math.max(20, startDims.height + dy);
+          newX = startElemPos.x + (startDims.width - newWidth);
           break;
         case 'bottom-right':
-          newWidth = startDims.width + dx;
-          newHeight = startDims.height + dy;
+          newWidth = Math.max(20, startDims.width + dx);
+          newHeight = Math.max(20, startDims.height + dy);
           break;
       }
-      
-      // Enforce minimum size
-      newWidth = Math.max(20, newWidth);
-      newHeight = Math.max(20, newHeight);
       
       updateElement(element.id, {
         x: newX,
@@ -122,7 +119,7 @@ export const CanvasElement: React.FC<CanvasElementProps> = ({
         window.removeEventListener('mouseup', handleMouseUp);
       };
     }
-  }, [isDragging, isResizing, startPos, startDims, resizeHandle, scale]);
+  }, [isDragging, isResizing, startPos, startDims, resizeHandle, scale, startElemPos]);
   
   const isSelected = selectedElementId === element.id;
   
@@ -131,7 +128,6 @@ export const CanvasElement: React.FC<CanvasElementProps> = ({
       ref={elementRef}
       className={`canvas-element ${element.type} ${isSelected ? 'selected' : ''}`}
       style={{
-        position: 'absolute',
         left: `${(element.x + panOffset.x) * scale}px`,
         top: `${(element.y + panOffset.y) * scale}px`,
         width: `${element.width * scale}px`,
@@ -140,7 +136,7 @@ export const CanvasElement: React.FC<CanvasElementProps> = ({
         border: isSelected ? '2px solid #3b82f6' : '1px solid #e5e7eb',
         backgroundColor: element.type === 'reservable' ? 'rgba(236, 253, 245, 0.8)' : 'rgba(239, 246, 255, 0.8)',
         borderRadius: '4px',
-        cursor: 'move',
+        cursor: isDragging ? 'grabbing' : 'move',
         zIndex: isSelected ? 10 : 1,
       }}
       onMouseDown={handleMouseDown}

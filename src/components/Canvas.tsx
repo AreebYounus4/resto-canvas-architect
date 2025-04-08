@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useFloorplan } from '@/context/FloorplanContext';
 import { CanvasElement } from './CanvasElement';
@@ -15,7 +16,8 @@ export const Canvas: React.FC = () => {
     activeFloorplan, 
     selectedElementId, 
     setSelectedElementId, 
-    addElement 
+    addElement,
+    elementLibrary
   } = useFloorplan();
   
   const [scale, setScale] = useState(1);
@@ -158,8 +160,12 @@ export const Canvas: React.FC = () => {
       const rect = canvasRef.current?.getBoundingClientRect();
       if (!rect) return;
       
-      const x = (e.clientX - rect.left) / scale - panOffset.x - (libraryItem.defaultWidth / 2);
-      const y = (e.clientY - rect.top) / scale - panOffset.y - (libraryItem.defaultHeight / 2);
+      const dropX = (e.clientX - rect.left) / scale - panOffset.x;
+      const dropY = (e.clientY - rect.top) / scale - panOffset.y;
+      
+      // Calculate position so the element is centered on the drop point
+      const x = dropX - (libraryItem.defaultWidth / 2);
+      const y = dropY - (libraryItem.defaultHeight / 2);
       
       if (libraryItem.type === 'reservable') {
         // Open dialog for reservable items

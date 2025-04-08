@@ -26,6 +26,7 @@
   height: 8px;
   background-color: #3b82f6;
   border-radius: 50%;
+  z-index: 20;
 }
 
 .resize-handle.top-left {
