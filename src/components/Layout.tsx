@@ -6,7 +6,7 @@ import {
   ResizablePanelGroup 
 } from '@/components/ui/resizable';
 import { ElementLibrary } from './ElementLibrary';
-import { Canvas } from './Canvas';
+import { Canvas } from './canvas';
 import { FloorplanTabs } from './FloorplanTabs';
 import { ElementProperties } from './ElementProperties';
 import { useFloorplan } from '@/context/FloorplanContext';
