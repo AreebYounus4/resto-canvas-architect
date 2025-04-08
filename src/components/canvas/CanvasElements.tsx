@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { useFloorplan } from '@/context/FloorplanContext';
-import { CanvasElement } from '../CanvasElement';
+import { CanvasElement } from './CanvasElement';
 
 interface CanvasElementsProps {
   scale: number;
