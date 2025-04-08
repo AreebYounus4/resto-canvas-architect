@@ -21,10 +21,10 @@ export const Layout: React.FC = () => {
       <header className="border-b bg-card p-4">
         <div className="container mx-auto flex justify-between items-center">
           <h1 className="text-2xl font-bold">Restaurant Canvas Architect</h1>
-          <Button onClick={publishFloorplans}>
+          {/* <Button onClick={publishFloorplans}>
             <Save className="mr-2 h-4 w-4" />
             Publish Floorplans
-          </Button>
+          </Button> */}
         </div>
       </header>
       
