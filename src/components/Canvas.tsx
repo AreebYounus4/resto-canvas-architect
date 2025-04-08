@@ -1,8 +1,8 @@
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useFloorplan } from '@/context/FloorplanContext';
-import { CanvasElement } from './CanvasElement';
 import { ElementLibraryItem } from '@/types';
+import { CanvasElement } from '@/components/canvas/CanvasElement';
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
